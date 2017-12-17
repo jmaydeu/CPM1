@@ -21,33 +21,13 @@ VERSION = 1
 
 
 			// Generamos 4 bytes en hexadecimal de la version en little endian
-			String version = bytesToHex(intToByteArray(VERSION, ByteOrder.LITTLE_ENDIAN));
 			
 			// Calculamos Raiz de Merkle concatenando los hash's de las transacciones 1 y 2.
-			String raizMerkle = digest(HASH_TRANSACCION_1.concat(HASH_TRANSACCION_2));
 
 			// Recuperamos tiempo actual en segundos codificado en little Endian
-			String timestamp = bytesToHex(intToByteArray((int)(System.currentTimeMillis() / 1000), ByteOrder.LITTLE_ENDIAN));
-						
 
-			System.out.println("VERSION:              " + version);
-			System.out.println("HASH PREVIO:          " + HASH_PREVIO);
-			System.out.println("RAIZ DE MERKLE:       " + raizMerkle);
-			System.out.println("TIMESTAMP:            " + timestamp);
-			System.out.println("DIFICULTAD:           " + DIFICULTAD);
-			System.out.println("HASH DEL ALUMNO:      " + HASH_DEL_ALUMNO);
-
-			String coeficienteHex = DIFICULTAD.substring(2);
-
-			String exponenteHex = DIFICULTAD.substring(0, 2);
-			int exponenteInt = Integer.decode("0x" + exponenteHex);
-			
-			String pattern = "%0"+String.valueOf(exponenteInt*2-6)+"x";
-			String targetHex = coeficienteHex + String.format(pattern, 0);
-			BigInteger targetBigI = new BigInteger(targetHex,16);
-			
-			System.out.println("TARGET DIFFICULT:     " + targetHex);
-
+//Calculamos la difcultad objectivo separando coeficiente y exponente
+ 
 			for (int i = NONCE_INICIAL; i < Integer.MAX_VALUE; i++) {
 
 				// Generamos 4 bytes en hexadecimal del nonce
@@ -74,15 +54,4 @@ VERSION = 1
 
 			}
 
-		} catch (Exception e1) {
-			System.out.println("ERROR: " + e1.getMessage());
-			System.exit(1);
-		} finally {
-
-			time_end = System.currentTimeMillis();
-			System.out.println("EL MINADO HA DURADO: " + (time_end - time_start)/1000 + " seconds");
-			System.exit(0);
-		}
-
-	}
-
+		
